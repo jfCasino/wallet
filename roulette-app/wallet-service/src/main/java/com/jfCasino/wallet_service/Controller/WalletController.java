@@ -1,5 +1,7 @@
 package com.jfCasino.wallet_service.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommits;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Service.WalletService;
@@ -21,16 +24,20 @@ public class WalletController {
     private final WalletService walletService;
 
     //Constructor injection
+    @Autowired
     public WalletController(WalletService walletService) {
         this.walletService = walletService;
     }
 
     //TODO rename api endpoints
     @GetMapping("/wallets/{userID}")
-    public ResponseEntity<Map<String, Object>> getWallet(@PathVariable int userID) {
-        int val = walletService.getBalance(userID);
-        Map<String, Object> body = Map.of("user", userID, "balance", val);
-        return ResponseEntity.ok(body); 
+    public ResponseEntity<Map<String, Object>> getWallet(@PathVariable("userID") int userID) {
+        Wallet wallet = walletService.getBalance(userID);
+ 
+        return ResponseEntity.ok(Map.of(
+            "userID", wallet.getUserID(),
+            "balance", wallet.getBalance()
+        ));
     }
 
     //JF do te metode bo dostopal le rulette service

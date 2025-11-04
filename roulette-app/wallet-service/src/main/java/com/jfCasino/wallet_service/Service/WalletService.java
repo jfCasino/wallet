@@ -4,15 +4,20 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommits;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 
+//JF Service class je Application Scoped po defaultu
 @Service
 public class WalletService {
     
-    public int getBalance(int userID) {
-        //mock implementation
-        return 42;
+    public Wallet getBalance(int userID) {
+        //mock
+        Wallet wallet = new Wallet();
+        wallet.setBalance(42);
+        wallet.setUserID(userID);
+        return wallet;
     }
 
     public WalletReservation createReservation(int userID, int amount) {
