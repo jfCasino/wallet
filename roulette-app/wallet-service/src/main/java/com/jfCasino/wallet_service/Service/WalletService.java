@@ -1,6 +1,7 @@
 package com.jfCasino.wallet_service.Service;
 
 import java.util.UUID;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,27 @@ import com.jfCasino.wallet_service.Enitities.WalletReservation;
 public class WalletService {
     
     public Wallet getBalance(int userID) {
-        //mock
+        //TODO unmock
         Wallet wallet = new Wallet();
         wallet.setBalance(42);
         wallet.setUserID(userID);
         return wallet;
+    }
+
+    public List<Object> getTopWallets(String order, int limit) {
+        //TODO implement method to get top wallets from DB with order and limit
+
+        //mock implementation
+        Wallet wallet = new Wallet();
+        wallet.setUserID(1);        
+        wallet.setBalance(1000);
+        Wallet wallet2 = new Wallet();
+        wallet2.setUserID(2);
+        wallet2.setBalance(900);
+        Wallet wallet3 = new Wallet();
+        wallet3.setUserID(3);
+        wallet3.setBalance(800);
+        return List.of(wallet, wallet2, wallet3);
     }
 
     public WalletReservation createReservation(int userID, int amount) {
@@ -39,9 +56,9 @@ public class WalletService {
         WalletCommits commit = new WalletCommits();
         commit.setCommitID(UUID.randomUUID().toString());
         commit.setReservationID(reservationID);
-        commit.setUserID(userID); //mock userID
+        commit.setUserID(userID); 
         commit.setAmount(amount);
-        commit.setNewBalance(42 + amount); //mock new balance
+        commit.setNewBalance(42 + amount); 
 
         return commit;
     }   
