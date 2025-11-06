@@ -42,6 +42,7 @@ public class WalletController {
         ));
     }
 
+    //JF do te metode bo dostopal le rulette service
     @GetMapping("/wallets")
     public ResponseEntity<List<Object>> getAllWallets(@RequestParam(name = "order",defaultValue = "asc") String order,
     @RequestParam(name = "limit", defaultValue = "10") int limit) {
