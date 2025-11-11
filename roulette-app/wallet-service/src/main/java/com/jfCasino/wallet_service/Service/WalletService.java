@@ -21,7 +21,7 @@ public class WalletService {
         return wallet;
     }
 
-    public List<Object> getTopWallets(String order, int limit) {
+    public List<Wallet> getTopWallets(String order, int limit) {
         //TODO implement method to get top wallets from DB with order and limit
 
         //mock implementation

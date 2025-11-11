@@ -1,6 +1,5 @@
 package com.jfCasino.wallet_service.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,6 @@ public class WalletController {
     private final WalletService walletService;
 
     //Constructor injection
-    @Autowired
     public WalletController(WalletService walletService) {
         this.walletService = walletService;
     }
@@ -44,7 +42,7 @@ public class WalletController {
 
     //JF do te metode bo dostopal le rulette service
     @GetMapping("/wallets")
-    public ResponseEntity<List<Object>> getAllWallets(@RequestParam(name = "order",defaultValue = "asc") String order,
+    public ResponseEntity<List<Wallet>> getAllWallets(@RequestParam(name = "order",defaultValue = "asc") String order,
     @RequestParam(name = "limit", defaultValue = "10") int limit) {
         //TODO change it so you do not return a List of Etities, but a list od DTOs?
         return ResponseEntity.ok(walletService.getTopWallets(order, limit));
@@ -77,8 +75,8 @@ public class WalletController {
         
         return ResponseEntity.ok(Map.of(
             "reservationID", commit.getReservationID(),
-            "userID", request.getUserID(),
-            "amount", request.getAmount(),
+            "userID", commit.getUserID(),
+            "amount", commit.getAmount(),
             "newBalance", commit.getNewBalance(),
             "status", "COMMITTED"
         ));
