@@ -1,0 +1,48 @@
+package com.jfCasino.wallet_service.dto;
+
+public class WalletReserveResponse {
+    private String reservationID;
+    private int userID;
+    private int amount;
+    private String status;
+
+    public WalletReserveResponse(String reservationID, int userID, int amount, String status) {
+        this.reservationID = reservationID;
+        this.userID = userID;
+        this.amount = amount;
+        this.status = status;
+    }
+
+    public String getReservationID() {
+        return reservationID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setReservationID(String reservationID) {
+        this.reservationID = reservationID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+}
