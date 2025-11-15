@@ -1,22 +1,22 @@
 package com.jfCasino.wallet_service.dto.response;
 
 public class WalletResponse {
-    private int userID;
+    private String userID;
     private int balance;
 
     public WalletResponse() {};
 
-    public WalletResponse(int userID, int balance) {
+    public WalletResponse(String userID, int balance) {
         this.userID = userID;
         this.balance = balance;
     }
 
     //getters and setters
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

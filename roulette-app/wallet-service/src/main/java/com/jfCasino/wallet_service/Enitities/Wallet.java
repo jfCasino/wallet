@@ -8,17 +8,17 @@ import jakarta.persistence.Table;
 @Table(name = "wallet")
 public class Wallet {
     @Id
-    private int userID;
+    private String userID;
     private int balance;
 
     public Wallet() {};
 
     //getters and setters
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

@@ -13,7 +13,7 @@ import com.jfCasino.wallet_service.Enitities.WalletReservation;
 @Service
 public class WalletService {
     
-    public Wallet getBalance(int userID) {
+    public Wallet getBalance(String userID) {
         //TODO unmock
         Wallet wallet = new Wallet();
         wallet.setBalance(42);
@@ -26,18 +26,18 @@ public class WalletService {
 
         //mock implementation
         Wallet wallet = new Wallet();
-        wallet.setUserID(1);        
+        wallet.setUserID("1");        
         wallet.setBalance(1000);
         Wallet wallet2 = new Wallet();
-        wallet2.setUserID(2);
+        wallet2.setUserID("2");
         wallet2.setBalance(900);
         Wallet wallet3 = new Wallet();
-        wallet3.setUserID(3);
+        wallet3.setUserID("3");
         wallet3.setBalance(800);
         return List.of(wallet, wallet2, wallet3);
     }
 
-    public WalletReservation createReservation(int userID, int amount) {
+    public WalletReservation createReservation(String userID, int amount) {
         //TODO get balance from DB and check if sufficient
 
         //mock implementation
@@ -49,7 +49,7 @@ public class WalletService {
         return reservation;
     }
 
-    public WalletCommits commit(String reservationID, int userID, int amount) {
+    public WalletCommits commit(String reservationID, String userID, int amount) {
         //TODO close the reservation in DB, update balance, calculate new balance
 
         //mock implementation

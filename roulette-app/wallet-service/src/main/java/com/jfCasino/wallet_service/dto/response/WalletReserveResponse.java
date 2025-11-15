@@ -6,11 +6,11 @@ public class WalletReserveResponse {
     public static final String STATUS_FAILED = "FAILED";
 
     private String reservationID;
-    private int userID;
+    private String userID;
     private int amount;
     private String status; //e.g., "PENDING", "FAILED"
 
-    public WalletReserveResponse(String reservationID, int userID, int amount, String status) {
+    public WalletReserveResponse(String reservationID, String userID, int amount, String status) {
         this.reservationID = reservationID;
         this.userID = userID;
         this.amount = amount;
@@ -21,7 +21,7 @@ public class WalletReserveResponse {
         return reservationID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
@@ -37,7 +37,7 @@ public class WalletReserveResponse {
         this.reservationID = reservationID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

@@ -33,7 +33,7 @@ public class WalletController {
 
     //TODO rename api endpoints
     @GetMapping("/wallets/{userID}")
-    public ResponseEntity<WalletResponse> getWallet(@PathVariable("userID") int userID) {
+    public ResponseEntity<WalletResponse> getWallet(@PathVariable("userID") String userID) {
         Wallet wallet = walletService.getBalance(userID);
         WalletResponse response = new WalletResponse(wallet.getUserID(), wallet.getBalance());
  

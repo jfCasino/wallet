@@ -1,7 +1,7 @@
 package com.jfCasino.wallet_service.dto.request;
 
 public class WalletReserveRequest {
-    private int userID;
+    private String userID;
     private int amount;
 
     public WalletReserveRequest() {};
@@ -11,7 +11,7 @@ public class WalletReserveRequest {
         return amount;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
@@ -19,7 +19,7 @@ public class WalletReserveRequest {
         this.amount = amount;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 }

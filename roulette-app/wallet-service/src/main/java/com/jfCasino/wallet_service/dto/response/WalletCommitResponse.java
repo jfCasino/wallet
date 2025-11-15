@@ -3,11 +3,11 @@ package com.jfCasino.wallet_service.dto.response;
 public class WalletCommitResponse {
     private String commitID;
     private String reservationID;
-    private int userID;
+    private String userID;
     private int amount;
     private int newBalance;
 
-    public WalletCommitResponse(String commitID, String reservationID, int userID, int amount, int newBalance) {
+    public WalletCommitResponse(String commitID, String reservationID, String userID, int amount, int newBalance) {
         this.commitID = commitID;
         this.reservationID = reservationID;
         this.userID = userID;
@@ -32,11 +32,11 @@ public class WalletCommitResponse {
         this.reservationID = reservationID;
     }
 
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
