@@ -1,4 +1,4 @@
-package com.jfCasino.wallet_service.dto;
+package com.jfCasino.wallet_service.dto.response;
 
 public class WalletResponse {
     private int userID;

@@ -1,4 +1,4 @@
-package com.jfCasino.wallet_service.dto;
+package com.jfCasino.wallet_service.dto.request;
 
 public class WalletCommitRequest {
     private String reservationID;

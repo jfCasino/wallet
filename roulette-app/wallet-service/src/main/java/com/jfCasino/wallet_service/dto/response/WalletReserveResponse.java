@@ -1,10 +1,14 @@
-package com.jfCasino.wallet_service.dto;
+package com.jfCasino.wallet_service.dto.response;
 
 public class WalletReserveResponse {
+
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_FAILED = "FAILED";
+
     private String reservationID;
     private int userID;
     private int amount;
-    private String status;
+    private String status; //e.g., "PENDING", "FAILED"
 
     public WalletReserveResponse(String reservationID, int userID, int amount, String status) {
         this.reservationID = reservationID;

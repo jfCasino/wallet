@@ -4,11 +4,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import org.springframework.cloud.openfeign.EnableFeignClients;
+
+import java.util.Map;
+
 //TODO remove exclude when db is configured
+@EnableFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class WalletApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WalletApplication.class, args);
+		//SpringApplication.run(WalletApplication.class, args);
+		SpringApplication app = new SpringApplication(WalletApplication.class);
+        app.setDefaultProperties(Map.of("server.port", "8081"));
+        app.run(args);
 	}
 }

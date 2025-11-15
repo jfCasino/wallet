@@ -12,11 +12,11 @@ import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommits;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Service.WalletService;
-import com.jfCasino.wallet_service.dto.WalletResponse;
-import com.jfCasino.wallet_service.dto.WalletCommitRequest;
-import com.jfCasino.wallet_service.dto.WalletCommitResponse;
-import com.jfCasino.wallet_service.dto.WalletReserveRequest;
-import com.jfCasino.wallet_service.dto.WalletReserveResponse;
+import com.jfCasino.wallet_service.dto.request.WalletCommitRequest;
+import com.jfCasino.wallet_service.dto.request.WalletReserveRequest;
+import com.jfCasino.wallet_service.dto.response.WalletCommitResponse;
+import com.jfCasino.wallet_service.dto.response.WalletReserveResponse;
+import com.jfCasino.wallet_service.dto.response.WalletResponse;
 
 import java.util.stream.Collectors;
 import java.util.List;
