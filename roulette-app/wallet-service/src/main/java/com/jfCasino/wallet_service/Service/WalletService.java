@@ -8,17 +8,26 @@ import org.springframework.stereotype.Service;
 import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommits;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
+import com.jfCasino.wallet_service.Repository.WalletRepository;
 
 //JF Service class je Application Scoped po defaultu
 @Service
 public class WalletService {
+
+    public final WalletRepository walletRepository;
+
+    public WalletService(WalletRepository walletRepository) {
+        this.walletRepository = walletRepository;
+    }
     
     public Wallet getBalance(String userID) {
         //TODO unmock
         Wallet wallet = new Wallet();
         wallet.setBalance(42);
         wallet.setUserID(userID);
-        return wallet;
+
+
+        return walletRepository.findByUserID(userID).orElse(wallet);
     }
 
     public List<Wallet> getTopWallets(String order, int limit) {
