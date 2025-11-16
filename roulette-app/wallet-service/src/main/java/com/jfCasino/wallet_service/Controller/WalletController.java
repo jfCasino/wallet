@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jfCasino.wallet_service.Enitities.Wallet;
-import com.jfCasino.wallet_service.Enitities.WalletCommits;
+import com.jfCasino.wallet_service.Enitities.WalletCommit;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Service.WalletService;
 import com.jfCasino.wallet_service.dto.request.WalletCommitRequest;
@@ -46,7 +46,7 @@ public class WalletController {
     public ResponseEntity<List<WalletResponse>> getAllWallets(@RequestParam(name = "order",defaultValue = "asc") String order,
     @RequestParam(name = "limit", defaultValue = "10") int limit) {
         //TODO change it so you do not return a List of Etities, but a list od DTOs?
-        List<Wallet> wallets = walletService.getTopWallets(order, limit);
+        List<Wallet> wallets = walletService.getTopWallets(order, limit).getContent();
         List<WalletResponse> response = wallets.stream()
             .map(wallet -> new WalletResponse(
             wallet.getUserID(),
@@ -76,7 +76,7 @@ public class WalletController {
     //JF commit vrne rezervirana sredstva + dobicek
     @PostMapping("/wallets/commit")
     public ResponseEntity<WalletCommitResponse> postCommit(@RequestBody WalletCommitRequest request) {
-        WalletCommits commit = walletService.commit(
+        WalletCommit commit = walletService.commit(
             request.getReservationID(),
             request.getUserID(),
             request.getAmount()
@@ -87,7 +87,8 @@ public class WalletController {
             commit.getReservationID(),
             commit.getUserID(),
             commit.getAmount(),
-            commit.getNewBalance()
+            commit.getNewBalance(),
+            commit.getCreatedAt()
         );
         
         

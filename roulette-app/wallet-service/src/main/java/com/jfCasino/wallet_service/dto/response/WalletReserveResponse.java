@@ -1,23 +1,25 @@
 package com.jfCasino.wallet_service.dto.response;
 
+import java.util.UUID;
+
 public class WalletReserveResponse {
 
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_FAILED = "FAILED";
 
-    private String reservationID;
+    private UUID reservationID;
     private String userID;
     private int amount;
     private String status; //e.g., "PENDING", "FAILED"
 
-    public WalletReserveResponse(String reservationID, String userID, int amount, String status) {
+    public WalletReserveResponse(UUID reservationID, String userID, int amount, String status) {
         this.reservationID = reservationID;
         this.userID = userID;
         this.amount = amount;
         this.status = status;
     }
 
-    public String getReservationID() {
+    public UUID getReservationID() {
         return reservationID;
     }
 
@@ -33,7 +35,7 @@ public class WalletReserveResponse {
         return status;
     }
 
-    public void setReservationID(String reservationID) {
+    public void setReservationID(UUID reservationID) {
         this.reservationID = reservationID;
     }
 

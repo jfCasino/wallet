@@ -1,32 +1,49 @@
-package com.jfCasino.wallet_service.dto.response;
+package com.jfCasino.wallet_service.Enitities;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.Instant;
 import java.util.UUID;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-public class WalletCommitResponse {
+@Entity
+@Table(name = "wallet_commits")
+@EntityListeners(AuditingEntityListener.class)
+public class WalletCommit {
+    
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID commitID;
+
+    @Column(nullable = false, unique = true)
     private UUID reservationID;
+
+    @Column(nullable = false)
     private String userID;
+
+    @Column(nullable = false)
     private int amount;
+
+    @Column(nullable = false)
     private int newBalance;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
-    public WalletCommitResponse(UUID commitID, UUID reservationID, String userID, int amount, int newBalance, Instant createdAt) {
-        this.commitID = commitID;
-        this.reservationID = reservationID;
-        this.userID = userID;
-        this.amount = amount;
-        this.newBalance = newBalance;
-    }
+    public WalletCommit() {}
 
     //getters and setters
     public UUID getCommitID() {
         return commitID;
-    }
-
-    public void setCommitID(UUID commitID) {
-        this.commitID = commitID;
     }
 
     public UUID getReservationID() {
@@ -65,7 +82,4 @@ public class WalletCommitResponse {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
 }

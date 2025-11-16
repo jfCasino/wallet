@@ -1,18 +1,20 @@
 package com.jfCasino.wallet_service.dto.request;
 
+import java.util.UUID;
+
 public class WalletCommitRequest {
-    private String reservationID;
+    private UUID reservationID;
     private String userID;
     private int amount;
 
     public WalletCommitRequest() {};
 
     //getters and setters
-    public String getReservationID() {
+    public UUID getReservationID() {
         return reservationID;
     }
 
-    public void setReservationID(String reservationID) {
+    public void setReservationID(UUID reservationID) {
         this.reservationID = reservationID;
     }   
 

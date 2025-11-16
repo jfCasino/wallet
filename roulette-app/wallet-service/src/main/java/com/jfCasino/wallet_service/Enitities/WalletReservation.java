@@ -4,12 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "wallet_reservations")
 public class WalletReservation {
     
     @Id
-    private String reservationID;
+    private UUID reservationID;
     private String userID;
     private int amount;
     private String status;
@@ -17,11 +19,11 @@ public class WalletReservation {
     public WalletReservation() {}
 
     //getters and setters
-    public String getReservationID() {
+    public UUID getReservationID() {
         return reservationID;
     }
 
-    public void setReservationID(String reservationID) {
+    public void setReservationID(UUID reservationID) {
         this.reservationID = reservationID;
     }
 
