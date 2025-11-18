@@ -66,7 +66,9 @@ public class WalletController {
             reservation.getReservationID(),
             reservation.getUserID(),
             reservation.getAmount(),
-            reservation.getStatus()
+            reservation.getStatus(),
+            reservation.getCreatedAt(),
+            reservation.getExpiresAt()
         );
 
 

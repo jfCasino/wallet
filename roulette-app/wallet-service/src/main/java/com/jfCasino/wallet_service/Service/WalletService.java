@@ -1,7 +1,6 @@
 package com.jfCasino.wallet_service.Service;
 
 import java.util.UUID;
-import java.util.List;
 
 
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +10,7 @@ import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommit;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Repository.WalletRepository;
+import com.jfCasino.wallet_service.Repository.WalletReservationRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -26,10 +26,12 @@ public class WalletService {
 
     public final WalletRepository walletRepository;
     public final WalletCommitsRepository walletCommitsRepository;
+    public final WalletReservationRepository walletReservationRepository;
 
-    public WalletService(WalletRepository walletRepository, WalletCommitsRepository walletCommitsRepository) {
+    public WalletService(WalletRepository walletRepository, WalletCommitsRepository walletCommitsRepository, WalletReservationRepository walletReservationRepository) {
         this.walletRepository = walletRepository;
         this.walletCommitsRepository = walletCommitsRepository;
+        this.walletReservationRepository = walletReservationRepository;
     }
     
     public Wallet getBalance(String userID) {
@@ -67,15 +69,25 @@ public class WalletService {
         return List.of(wallet, wallet2, wallet3); */
     }
 
+    @Transactional
     public WalletReservation createReservation(String userID, int amount) {
         //TODO get balance from DB and check if sufficient
+        int balance = walletRepository.findByUserID(userID)
+            .map(Wallet::getBalance)
+            .orElse(0);
 
-        //mock implementation
+        if(balance <= amount) {
+            throw new RuntimeException("Insufficient balance");
+        }
+
+        //create reservation
         WalletReservation reservation = new WalletReservation();
-        //reservation.setReservationID(UUID.randomUUID().toString()); //unique ID
         reservation.setUserID(userID);
         reservation.setAmount(amount);
-        reservation.setStatus("PENDING");
+
+        //save reservation
+        walletReservationRepository.save(reservation);
+
         return reservation;
     }
 

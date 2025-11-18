@@ -1,22 +1,57 @@
 package com.jfCasino.wallet_service.Enitities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
+
+import java.time.Instant;
 import java.util.UUID;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "wallet_reservations")
+@EntityListeners(AuditingEntityListener.class)
 public class WalletReservation {
     
     @Id
+    @GeneratedValue
+    @Column(columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID reservationID;
+
+    @Column(nullable = false)
     private String userID;
+
+    @Column(nullable = false)
     private int amount;
+
+    @Column(nullable = false)
     private String status;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(nullable = false)
+    private Instant expiresAt;
+
     public WalletReservation() {}
+
+    // Automatically set expiresAt BEFORE insert:
+    @PrePersist
+    private void onCreate() {
+        // createdAt may not be set yet by auditing,
+        // so use Instant.now() instead
+        this.createdAt = Instant.now();
+        this.expiresAt = this.createdAt.plusSeconds(5 * 60); // +5 minutes
+        this.status = "PENDING";
+    }
 
     //getters and setters
     public UUID getReservationID() {
@@ -49,6 +84,14 @@ public class WalletReservation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getExpiresAt() {
+        return expiresAt;
     }
 
 }
