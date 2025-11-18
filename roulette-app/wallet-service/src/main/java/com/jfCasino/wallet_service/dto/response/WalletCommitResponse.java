@@ -18,6 +18,7 @@ public class WalletCommitResponse {
         this.userID = userID;
         this.amount = amount;
         this.newBalance = newBalance;
+        this.createdAt = createdAt;
     }
 
     //getters and setters
