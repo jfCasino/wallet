@@ -19,6 +19,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "wallet_reservations")
 @EntityListeners(AuditingEntityListener.class)
 public class WalletReservation {
+
+    public static final String STATUS_PENDING = "PENDING";
+    public static final String STATUS_FAILED = "FAILED";
     
     @Id
     @GeneratedValue
@@ -50,7 +53,7 @@ public class WalletReservation {
         // so use Instant.now() instead
         this.createdAt = Instant.now();
         this.expiresAt = this.createdAt.plusSeconds(5 * 60); // +5 minutes
-        this.status = "PENDING";
+        this.status = STATUS_PENDING;
     }
 
     //getters and setters

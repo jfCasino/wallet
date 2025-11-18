@@ -34,6 +34,7 @@ public class Wallet {
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
+    //JF avtomatsko posodobi ob vsaki spremembi
     @LastModifiedDate
     @Column(nullable = false)
     private Instant updatedAt;

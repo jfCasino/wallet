@@ -53,20 +53,8 @@ public class WalletService {
 
         Pageable pageable = PageRequest.of(0, limit, sort);
 
-        return walletRepository.findAll(pageable); 
 
-        //mock implementation
-        /* 
-        Wallet wallet = new Wallet();
-        wallet.setUserID("1");        
-        wallet.setBalance(1000);
-        Wallet wallet2 = new Wallet();
-        wallet2.setUserID("2");
-        wallet2.setBalance(900);
-        Wallet wallet3 = new Wallet();
-        wallet3.setUserID("3");
-        wallet3.setBalance(800);
-        return List.of(wallet, wallet2, wallet3); */
+        return walletRepository.findAll(pageable); 
     }
 
     @Transactional
@@ -76,17 +64,22 @@ public class WalletService {
             .map(Wallet::getBalance)
             .orElse(0);
 
-        if(balance <= amount) {
-            throw new RuntimeException("Insufficient balance");
-        }
 
         //create reservation
         WalletReservation reservation = new WalletReservation();
         reservation.setUserID(userID);
         reservation.setAmount(amount);
 
+        //premalo sredstev
+        if(balance < amount) {
+            reservation.setStatus(WalletReservation.STATUS_FAILED);
+            walletReservationRepository.save(reservation);
+            return reservation;
+        }
+
         //save reservation
         walletReservationRepository.save(reservation);
+
 
         return reservation;
     }
@@ -109,19 +102,13 @@ public class WalletService {
         //save commit
         walletCommitsRepository.save(commit);
 
-        //TODO handle reservation status update
+        //handle reservation status update
+        WalletReservation reservation = walletReservationRepository.findById(reservationID)
+            .orElseThrow(() -> new RuntimeException("Reservation not found"));
+        reservation.setStatus("COMMITTED");
+        walletReservationRepository.save(reservation);
 
-        return commit;
-
-        //mock implementation
-        /* 
-        WalletCommit commit = new WalletCommit();
-        commit.setReservationID(reservationID);
-        commit.setUserID(userID); 
-        commit.setAmount(amount);
-        commit.setNewBalance(42 + amount); 
         
         return commit;
-        */
     }   
 }

@@ -11,7 +11,7 @@ public class WalletReserveResponse {
     private UUID reservationID;
     private String userID;
     private int amount;
-    private String status; //e.g., "PENDING", "FAILED"
+    private String status; //e.g., "PENDING", "FAILED", "COMPLETED"
     private Instant createdAt;
     private Instant expiresAt;
 
