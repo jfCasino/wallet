@@ -22,6 +22,8 @@ public class WalletReservation {
 
     public static final String STATUS_PENDING = "PENDING";
     public static final String STATUS_FAILED = "FAILED";
+    public static final String STATUS_INVALID_WALLET = "INVALID_WALLET";
+
     
     @Id
     @GeneratedValue

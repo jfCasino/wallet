@@ -35,14 +35,7 @@ public class WalletService {
     }
     
     public Wallet getBalance(String userID) {
-        //TODO unmock
-        /* 
-        Wallet wallet = new Wallet();
-        wallet.setBalance(42);
-        wallet.setUserID(userID);
-        */
-
-        //TODO mabye return optional and handle not found in controller/frontend?
+ 
         return walletRepository.findByUserID(userID).orElse(new Wallet());
     }
 
@@ -60,15 +53,24 @@ public class WalletService {
     @Transactional
     public WalletReservation createReservation(String userID, int amount) {
         //TODO get balance from DB and check if sufficient
-        int balance = walletRepository.findByUserID(userID)
-            .map(Wallet::getBalance)
-            .orElse(0);
-
+        Wallet wallet = walletRepository.findByUserID(userID).orElse(null);
 
         //create reservation
         WalletReservation reservation = new WalletReservation();
         reservation.setUserID(userID);
         reservation.setAmount(amount);
+        
+        //sporoči če denarnica ne obstaja
+        if (wallet == null) {
+            reservation.setStatus(WalletReservation.STATUS_INVALID_WALLET);
+            walletReservationRepository.save(reservation);
+            return reservation;
+        }
+
+        //JF če obstaja preveri bilanco
+        int balance = walletRepository.findByUserID(userID)
+            .map(Wallet::getBalance)
+            .orElse(0);
 
         //premalo sredstev
         if(balance < amount) {
@@ -77,10 +79,14 @@ public class WalletService {
             return reservation;
         }
 
-        //save reservation
+        //odstej sredstva če jih je dovolj
+        wallet.setBalance(balance - amount);
+
+        //save reservation and wallet
         walletReservationRepository.save(reservation);
+        walletRepository.save(wallet);
 
-
+        
         return reservation;
     }
 
@@ -108,7 +114,7 @@ public class WalletService {
         reservation.setStatus("COMMITTED");
         walletReservationRepository.save(reservation);
 
-        
+
         return commit;
     }   
 }
