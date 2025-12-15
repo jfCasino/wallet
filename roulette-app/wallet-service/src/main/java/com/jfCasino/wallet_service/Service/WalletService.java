@@ -39,6 +39,15 @@ public class WalletService {
         return walletRepository.findByUserID(userID).orElse(new Wallet());
     }
 
+    @Transactional
+    public UUID createWallet(String userID) {
+        Wallet wallet = new Wallet();
+        wallet.setUserID(userID);
+        wallet.setBalance(500); // new wallets start with balance 500
+        wallet = walletRepository.save(wallet);
+        return wallet.getWalletID();
+    }
+
     public Page<Wallet> getTopWallets(String direction, int limit) {
         Sort sort = direction.equalsIgnoreCase("desc")
         ? Sort.by("balance").descending()

@@ -12,6 +12,7 @@ import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommit;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Service.WalletService;
+import com.jfCasino.wallet_service.dto.request.CreateWalletRequest;
 import com.jfCasino.wallet_service.dto.request.WalletCommitRequest;
 import com.jfCasino.wallet_service.dto.request.WalletReserveRequest;
 import com.jfCasino.wallet_service.dto.response.WalletCommitResponse;
@@ -20,6 +21,7 @@ import com.jfCasino.wallet_service.dto.response.WalletResponse;
 
 import java.util.stream.Collectors;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class WalletController {
@@ -31,11 +33,16 @@ public class WalletController {
         this.walletService = walletService;
     }
 
+    @PostMapping("/wallets/create")
+    public UUID createWallet(@RequestBody CreateWalletRequest request) {
+        return walletService.createWallet(request.getUserID());
+    }
+
     //TODO rename api endpoints
     @GetMapping("/wallets/{userID}")
     public ResponseEntity<WalletResponse> getWallet(@PathVariable("userID") String userID) {
         Wallet wallet = walletService.getBalance(userID);
-        WalletResponse response = new WalletResponse(wallet.getUserID(), wallet.getBalance());
+        WalletResponse response = new WalletResponse(wallet.getWalletID() ,wallet.getUserID(), wallet.getBalance());
  
 
         return ResponseEntity.ok(response);
@@ -49,6 +56,7 @@ public class WalletController {
         List<Wallet> wallets = walletService.getTopWallets(order, limit).getContent();
         List<WalletResponse> response = wallets.stream()
             .map(wallet -> new WalletResponse(
+            wallet.getWalletID(),
             wallet.getUserID(),
             wallet.getBalance()
             )).collect(Collectors.toList());

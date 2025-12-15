@@ -43,6 +43,10 @@ public class Wallet {
     public Wallet() {};
 
     //getters and setters
+    public UUID getWalletID () {
+        return walletID;
+    }
+
     public String getUserID() {
         return userID;
     }

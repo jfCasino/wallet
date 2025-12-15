@@ -2,6 +2,7 @@ spring:
   application:
     name: Wallet Service
 
+
   datasource:
     url: jdbc:postgresql://localhost:5433/walletDB   # your DB URL
     username: jf76272                              # your DB username
