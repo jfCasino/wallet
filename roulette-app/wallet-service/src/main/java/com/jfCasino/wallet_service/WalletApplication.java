@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-import java.util.Map;
 
 
 @EnableFeignClients
@@ -15,7 +14,6 @@ public class WalletApplication {
 	public static void main(String[] args) {
 		//SpringApplication.run(WalletApplication.class, args);
 		SpringApplication app = new SpringApplication(WalletApplication.class);
-        app.setDefaultProperties(Map.of("server.port", "8081"));
         app.run(args);
 	}
 }
