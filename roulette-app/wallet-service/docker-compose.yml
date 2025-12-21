@@ -1,0 +1,27 @@
+version: "3.8"
+#docker-compose up -d --build
+
+services:
+  wallet-db:
+    image: postgres:15
+    container_name: wallet-db
+    environment:
+      POSTGRES_DB: walletDB
+      POSTGRES_USER: jf76272
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+
+  wallet-service:
+    image: wallet-service:1.0.0
+    container_name: wallet-service
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://wallet-db:5432/walletDB
+      SPRING_DATASOURCE_USERNAME: jf76272
+      SPRING_DATASOURCE_PASSWORD: password
+      SERVER_PORT: 8080
+      SERVER_ADDRESS: 0.0.0.0
+    depends_on:
+      - wallet-db
