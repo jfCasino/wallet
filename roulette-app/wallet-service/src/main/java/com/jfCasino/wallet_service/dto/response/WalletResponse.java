@@ -1,12 +1,33 @@
 package com.jfCasino.wallet_service.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.UUID;
 
+@Schema(
+    name = "WalletResponse",
+    description = "Response representing the current state of a wallet"
+)
 public class WalletResponse {
-    private UUID walletID;
-    private String userID;
-    private int balance;
 
+    @Schema(
+        description = "Unique identifier of the wallet",
+        example = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    )
+    private UUID walletID;
+
+    @Schema(
+        description = "Unique identifier of the user who owns the wallet",
+        example = "user-12345"
+    )
+    private String userID;
+
+    @Schema(
+        description = "Current balance of the wallet",
+        example = "850"
+    )
+    private int balance;
+    
     public WalletResponse() {};
 
     public WalletResponse(UUID walletID, String userID, int balance) {
