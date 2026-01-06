@@ -1,0 +1,76 @@
+# k8s/databases/roulette-db.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wallet-db-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wallet-db-secret
+type: Opaque
+stringData:
+  DB_USERNAME: jf76272
+  DB_PASSWORD: password
+  DB_NAME: walletDB
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallet-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wallet-db
+  template:
+    metadata:
+      labels:
+        app: wallet-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: wallet-db-secret
+                key: DB_USERNAME
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: wallet-db-secret
+                key: DB_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: wallet-db-secret
+                key: DB_NAME
+        ports:
+          - containerPort: 5432
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: wallet-db-storage
+      volumes:
+        - name: wallet-db-storage
+          persistentVolumeClaim:
+            claimName: wallet-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wallet-db-service
+spec:
+  selector:
+    app: wallet-db
+  ports:
+    - protocol: TCP
+      port: 5432      # matches DB_PORT in Spring Boot
+      targetPort: 5432

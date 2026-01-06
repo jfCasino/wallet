@@ -1,29 +1,30 @@
-#docker-compose up -d --build
+version: "3.9"
 
 services:
   wallet-db:
     image: postgres:15
     container_name: wallet-db
     environment:
-      POSTGRES_DB: walletDB
-      POSTGRES_USER: jf76272
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${WALLET_DB_NAME:-walletDB}
+      POSTGRES_USER: ${WALLET_DB_USER:-jf76272}
+      POSTGRES_PASSWORD: ${WALLET_DB_PASSWORD:-password}
     ports:
       - "5433:5432"
     networks:
       - roulette-network
 
   wallet-service:
-    build: ./
+    image: jf76272/wallet-service:1.0.0
     container_name: wallet-service
     ports:
       - "8081:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://wallet-db:5432/walletDB
-      SPRING_DATASOURCE_USERNAME: jf76272
-      SPRING_DATASOURCE_PASSWORD: password
+      DB_HOST: ${WALLET_DB_HOST:-wallet-db}
+      DB_PORT: ${WALLET_DB_PORT:-5432}
+      DB_NAME: ${WALLET_DB_NAME:-walletDB}
+      DB_USERNAME: ${WALLET_DB_USER:-jf76272}
+      DB_PASSWORD: ${WALLET_DB_PASSWORD:-password}
       SERVER_PORT: 8080
-      SERVER_ADDRESS: 0.0.0.0
     depends_on:
       - wallet-db
     networks:
