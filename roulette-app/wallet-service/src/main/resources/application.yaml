@@ -19,3 +19,7 @@ spring:
 server:
   port: ${SERVER_PORT:8080}
   address: 0.0.0.0
+
+exchange-rate:
+  api-key: ${EXCHANGE_RATE_API_KEY}
+  base-url: https://v6.exchangerate-api.com/v6

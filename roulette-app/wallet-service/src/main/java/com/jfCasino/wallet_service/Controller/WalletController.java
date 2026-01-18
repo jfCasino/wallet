@@ -12,6 +12,7 @@ import com.jfCasino.wallet_service.Enitities.Wallet;
 import com.jfCasino.wallet_service.Enitities.WalletCommit;
 import com.jfCasino.wallet_service.Enitities.WalletReservation;
 import com.jfCasino.wallet_service.Service.WalletService;
+import com.jfCasino.wallet_service.Service.CurrencyService;
 import com.jfCasino.wallet_service.dto.request.CreateWalletRequest;
 import com.jfCasino.wallet_service.dto.request.WalletCommitRequest;
 import com.jfCasino.wallet_service.dto.request.WalletReserveRequest;
@@ -34,10 +35,12 @@ import java.util.UUID;
 public class WalletController {
 
     private final WalletService walletService;
+    private final CurrencyService currencyService;
 
     //Constructor injection
-    public WalletController(WalletService walletService) {
+    public WalletController(WalletService walletService, CurrencyService currencyService) {
         this.walletService = walletService;
+        this.currencyService = currencyService;
     }
 
     @PostMapping("/wallets/create")
@@ -52,7 +55,6 @@ public class WalletController {
         return walletService.createWallet(request.getUserID());
     }
 
-    //TODO rename api endpoints
     @GetMapping("/wallets/{userID}")
     @Operation(summary = "Retrieve a user's wallet",
                description = "Returns the wallet details for the given user ID")
@@ -66,6 +68,39 @@ public class WalletController {
         Wallet wallet = walletService.getBalance(userID);
         WalletResponse response = new WalletResponse(wallet.getWalletID() ,wallet.getUserID(), wallet.getBalance());
  
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/wallets/{userID}/yen")
+    @Operation(
+        summary = "Retrieve a user's wallet balance in JPY",
+        description = "Returns the wallet details for the given user ID with the balance converted from EUR to JPY"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Wallet retrieved successfully"),
+        @ApiResponse(responseCode = "404", description = "Wallet not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<WalletResponse> getWalletYen(
+            @Parameter(
+                description = "User ID of the wallet to retrieve",
+                example = "user-12345"
+            )
+            @PathVariable("userID") String userID
+    ) {
+
+        Wallet wallet = walletService.getBalance(userID);
+
+        double balanceInYen = currencyService.convertEurToJpy(
+                wallet.getBalance()
+        );
+
+        WalletResponse response = new WalletResponse(
+                wallet.getWalletID(),
+                wallet.getUserID(),
+                (int) balanceInYen
+        );
 
         return ResponseEntity.ok(response);
     }
