@@ -4,7 +4,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-    
+import java.math.BigDecimal;
+
 
 @Service
 public class CurrencyService {
@@ -24,7 +25,7 @@ public class CurrencyService {
     /**
      * Converts an amount from EUR to JPY using ExchangeRate-API.
      */
-    public double convertEurToJpy(double amount) {
+    public BigDecimal convertEurToJpy(BigDecimal amount) {
 
         String url = String.format(
                 "%s/%s/pair/EUR/JPY",
@@ -37,7 +38,7 @@ public class CurrencyService {
 
         double rate = ((Number) response.get("conversion_rate")).doubleValue();
 
-        return amount * rate;
+        return amount.multiply(BigDecimal.valueOf(rate));
     }
 }
 

@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,10 +31,10 @@ public class WalletCommit {
     private String userID;
 
     @Column(nullable = false)
-    private int amount;
+    private BigDecimal amount;
 
     @Column(nullable = false)
-    private int newBalance;
+    private BigDecimal newBalance;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -62,19 +63,19 @@ public class WalletCommit {
         this.userID = userID;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public int getNewBalance() {
+    public BigDecimal getNewBalance() {
         return newBalance;
     }
 
-    public void setNewBalance(int newBalance) {
+    public void setNewBalance(BigDecimal newBalance) {
         this.newBalance = newBalance;
     }
 

@@ -13,6 +13,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "wallet")
@@ -28,7 +29,7 @@ public class Wallet {
     private String userID; 
 
     @Column(nullable = false)
-    private int balance = 0;
+    private BigDecimal balance = BigDecimal.ZERO;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -55,11 +56,11 @@ public class Wallet {
         this.userID = userID;
     }
 
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
     
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

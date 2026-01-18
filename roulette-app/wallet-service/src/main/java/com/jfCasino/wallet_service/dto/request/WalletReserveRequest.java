@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @Schema(
     name = "WalletReserveRequest",
@@ -24,11 +25,11 @@ public class WalletReserveRequest {
         minimum = "1"
     )
     @Min(1)
-    private int amount;
+    private BigDecimal amount;
     public WalletReserveRequest() {};
     //getters and setters
     
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -36,7 +37,7 @@ public class WalletReserveRequest {
         return userID;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

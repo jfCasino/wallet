@@ -3,6 +3,7 @@ package com.jfCasino.wallet_service.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
+import java.math.BigDecimal;
 
 @Schema(
     name = "WalletResponse",
@@ -26,11 +27,11 @@ public class WalletResponse {
         description = "Current balance of the wallet",
         example = "850"
     )
-    private int balance;
+    private BigDecimal balance;
     
     public WalletResponse() {};
 
-    public WalletResponse(UUID walletID, String userID, int balance) {
+    public WalletResponse(UUID walletID, String userID, BigDecimal balance) {
         this.walletID = walletID;
         this.userID = userID;
         this.balance = balance;
@@ -53,11 +54,11 @@ public class WalletResponse {
         this.userID = userID;
     }
 
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
     
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

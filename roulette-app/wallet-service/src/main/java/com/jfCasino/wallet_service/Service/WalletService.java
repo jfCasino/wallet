@@ -15,6 +15,7 @@ import com.jfCasino.wallet_service.Repository.WalletReservationRepository;
 import jakarta.transaction.Transactional;
 
 import com.jfCasino.wallet_service.Repository.WalletCommitsRepository;
+import java.math.BigDecimal;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class WalletService {
     public UUID createWallet(String userID) {
         Wallet wallet = new Wallet();
         wallet.setUserID(userID);
-        wallet.setBalance(500); // new wallets start with balance 500
+        wallet.setBalance(BigDecimal.valueOf(500)); // new wallets start with balance 500
         wallet = walletRepository.save(wallet);
         return wallet.getWalletID();
     }
@@ -60,7 +61,7 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletReservation createReservation(String userID, int amount) {
+    public WalletReservation createReservation(String userID, BigDecimal amount) {
         //TODO get balance from DB and check if sufficient
         Wallet wallet = walletRepository.findByUserID(userID).orElse(null);
 
@@ -77,19 +78,19 @@ public class WalletService {
         }
 
         //JF če obstaja preveri bilanco
-        int balance = walletRepository.findByUserID(userID)
+        BigDecimal balance = walletRepository.findByUserID(userID)
             .map(Wallet::getBalance)
-            .orElse(0);
+            .orElse(BigDecimal.ZERO);
 
         //premalo sredstev
-        if(balance < amount) {
+        if(balance.compareTo(amount) < 0) {
             reservation.setStatus(WalletReservation.STATUS_FAILED);
             walletReservationRepository.save(reservation);
             return reservation;
         }
 
         //odstej sredstva če jih je dovolj
-        wallet.setBalance(balance - amount);
+        wallet.setBalance(balance.subtract(amount));
 
         //save reservation and wallet
         walletReservationRepository.save(reservation);
@@ -100,11 +101,11 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletCommit commit(UUID reservationID, String userID, int amount) {
+    public WalletCommit commit(UUID reservationID, String userID, BigDecimal amount) {
         //find wallet by userID
         Wallet wallet = walletRepository.findByUserID(userID).orElseThrow(() -> new RuntimeException("Wallet not found"));
         //update balance
-        wallet.setBalance(wallet.getBalance() + amount);
+        wallet.setBalance(wallet.getBalance().add(amount));
         //save wallet //JF save avtomatsko preveri ali more update ali insert
         walletRepository.save(wallet);
 

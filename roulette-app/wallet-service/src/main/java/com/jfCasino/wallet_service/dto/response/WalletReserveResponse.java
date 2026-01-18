@@ -2,6 +2,7 @@ package com.jfCasino.wallet_service.dto.response;
 
 import java.util.UUID;
 import java.time.Instant;
+import java.math.BigDecimal;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -30,7 +31,7 @@ public class WalletReserveResponse {
         description = "Amount of funds reserved",
         example = "150"
     )
-    private int amount;
+    private BigDecimal amount;
 
     @Schema(
         description = "Current status of the reservation",
@@ -51,7 +52,7 @@ public class WalletReserveResponse {
     )
     private Instant expiresAt;
 
-    public WalletReserveResponse(UUID reservationID, String userID, int amount, String status, Instant createdAt, Instant expiresAt) {
+    public WalletReserveResponse(UUID reservationID, String userID, BigDecimal amount, String status, Instant createdAt, Instant expiresAt) {
         this.reservationID = reservationID;
         this.userID = userID;
         this.amount = amount;
@@ -68,7 +69,7 @@ public class WalletReserveResponse {
         return userID;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -84,7 +85,7 @@ public class WalletReserveResponse {
         this.userID = userID;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Instant;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 @Schema(
     name = "WalletCommitResponse",
@@ -33,13 +34,13 @@ public class WalletCommitResponse {
         description = "Amount charged from the wallet",
         example = "150"
     )
-    private int amount;
+    private BigDecimal amount;
 
     @Schema(
         description = "New wallet balance after the commit",
         example = "850"
     )
-    private int newBalance;
+    private BigDecimal newBalance;
 
     @Schema(
         description = "Timestamp when the commit was created",
@@ -47,7 +48,7 @@ public class WalletCommitResponse {
     )
     private Instant createdAt;
 
-    public WalletCommitResponse(UUID commitID, UUID reservationID, String userID, int amount, int newBalance, Instant createdAt) {
+    public WalletCommitResponse(UUID commitID, UUID reservationID, String userID, BigDecimal amount, BigDecimal newBalance, Instant createdAt) {
         this.commitID = commitID;
         this.reservationID = reservationID;
         this.userID = userID;
@@ -81,19 +82,19 @@ public class WalletCommitResponse {
         this.userID = userID;
     }
 
-    public int getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public int getNewBalance() {
+    public BigDecimal getNewBalance() {
         return newBalance;
     }
 
-    public void setNewBalance(int newBalance) {
+    public void setNewBalance(BigDecimal newBalance) {
         this.newBalance = newBalance;
     }
 

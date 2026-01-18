@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
+import java.math.BigDecimal;
 
 import java.util.stream.Collectors;
 import java.util.List;
@@ -92,14 +93,14 @@ public class WalletController {
 
         Wallet wallet = walletService.getBalance(userID);
 
-        double balanceInYen = currencyService.convertEurToJpy(
+        BigDecimal balanceInYen = currencyService.convertEurToJpy(
                 wallet.getBalance()
         );
 
         WalletResponse response = new WalletResponse(
                 wallet.getWalletID(),
                 wallet.getUserID(),
-                (int) balanceInYen
+                balanceInYen
         );
 
         return ResponseEntity.ok(response);
